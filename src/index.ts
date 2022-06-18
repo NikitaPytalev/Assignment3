@@ -5,7 +5,6 @@ import { validate } from 'uuid';
 const PORT = process.env.PORT || 5000;
 
 const server = http.createServer(async (req, res) => {
-    console.log(req.url);
     if (req.url === '/api/users' && req.method === 'GET') {
         const users = await repository.getUsers();
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -23,7 +22,6 @@ const server = http.createServer(async (req, res) => {
 
         res.writeHead(201, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(newUser));
-
     } else if (req.url?.match(/\/api\/users\/(.+)/)) {
         const splitUrl = req.url.split('/');
 
@@ -52,7 +50,24 @@ const server = http.createServer(async (req, res) => {
             }
         }
         if (req.method === 'PUT') {
-            
+            const buffers = [];
+
+            for await (const chunk of req) {
+              buffers.push(chunk);
+            }
+          
+            const data = Buffer.concat(buffers).toString();
+          
+            try {
+                const updatedUser = await repository.updateUser(id, JSON.parse(data));
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(updatedUser));
+            } catch (e) {
+                if (e instanceof Error) {
+                    res.writeHead(404, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ 'error' : e.message})); 
+                }
+            }
         }
         if (req.method === 'DELETE') {
             

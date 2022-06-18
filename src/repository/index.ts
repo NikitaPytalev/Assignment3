@@ -25,4 +25,16 @@ export const addUser = (userData: any) : Promise<User> => {
         data.push(user);
         resolve(user);
     });
-}
+};
+
+export const updateUser = (id: string, userData: any) : Promise<User> => {
+    return new Promise((resolve, reject) => {
+        const index = data.findIndex(u => u.id === id);
+        if (index) {
+            data[index] = {...data[index], ...userData};
+            resolve(data[index]);
+        } else {
+            reject(new Error('User Not Found'));
+        }
+    });
+};
