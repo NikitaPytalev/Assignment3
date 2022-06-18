@@ -11,6 +11,18 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(users).replace(/]|[[]/g, ''));
     } else if (req.url === '/api/users' && req.method === 'POST') {
+        const buffers = [];
+
+        for await (const chunk of req) {
+          buffers.push(chunk);
+        }
+      
+        const data = Buffer.concat(buffers).toString();
+      
+        const newUser = await repository.addUser(JSON.parse(data));
+
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(newUser));
 
     } else if (req.url?.match(/\/api\/users\/(.+)/)) {
         const splitUrl = req.url.split('/');
