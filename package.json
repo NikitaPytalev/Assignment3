@@ -5,14 +5,20 @@
   "main": "index.js",
   "scripts": {
     "start:prod": "ts-node src/index.js",
-    "start:dev": "nodemon --config nodemon.json src/index.ts"
+    "start:dev": "nodemon --config nodemon.json src/index.ts",
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^28.1.2",
     "@types/node": "^18.0.0",
+    "@types/supertest": "^2.0.12",
+    "jest": "^28.1.1",
     "nodemon": "^2.0.16",
+    "supertest": "^6.2.3",
+    "ts-jest": "^28.0.5",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.3"
   },
