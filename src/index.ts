@@ -1,6 +1,7 @@
 import * as http from 'http'
 import * as store from './data';
 import { validate } from 'uuid';
+import 'dotenv/config';
 
 const PORT = process.env.PORT || 5000;
 
