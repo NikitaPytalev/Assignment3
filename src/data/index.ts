@@ -36,13 +36,10 @@ export const getUsers = () : Promise<Array<User>> => {
     });
 };
 
-export const getUser= (id: string) : Promise<User> => {
+export const getUser= (id: string) : Promise<User | undefined> => {
     return new Promise((resolve, reject) => {
         const user = data.find(u => u.id === id);
-        if (user)
-            resolve(user);
-        else 
-            reject(new Error('User Not Found'));
+        resolve(user);
     });
 };
 
@@ -58,23 +55,23 @@ export const addUser = (delta: any) : Promise<User> => {
 export const updateUser = (id: string, delta: any) => {
     return new Promise((resolve, reject) => {
         const index = data.findIndex(u => u.id === id);
-        if (index) {
+        if (index >= 0) {
             data[index] = {...data[index], ...delta};
             resolve(data[index]);
         } else {
-            reject(new Error('User Not Found'));
+            resolve(undefined);
         }
     });
 };
 
-export const removeUser = (id: string) : Promise<void> => {
+export const removeUser = (id: string) : Promise<Boolean> => {
     return new Promise((resolve, reject) => {
         const index = data.findIndex(u => u.id === id);
-        if (index) {
+        if (index >= 0) {
             data = data.filter(u => u.id !== id);
-            resolve();
+            resolve(true);
         } else {
-            reject(new Error('User Not Found'));
+            resolve(false)
         }
     });
 };
