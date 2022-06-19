@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import request from 'supertest';
-import server from './index';
+import initServer from './index';
 
+const server = initServer();
 
 describe('Scenario 1: Add user', () => {
     let expectedId = '';
