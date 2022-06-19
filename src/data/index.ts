@@ -1,5 +1,6 @@
 import User from "../models/user";
 import { v4 as uuidv4 } from 'uuid';
+import PartialUser from "../models/partialUser";
 
 let data = [
     {
@@ -43,7 +44,7 @@ export const getUser= (id: string) : Promise<User | undefined> => {
     });
 };
 
-export const addUser = (delta: any) : Promise<User> => {
+export const addUser = (delta: PartialUser) : Promise<User> => {
     return new Promise((resolve, reject) => {
         const newId = uuidv4();
         const user = {id: newId, ...delta};
@@ -52,7 +53,7 @@ export const addUser = (delta: any) : Promise<User> => {
     });
 };
 
-export const updateUser = (id: string, delta: any) => {
+export const updateUser = (id: string, delta: PartialUser) => {
     return new Promise((resolve, reject) => {
         const index = data.findIndex(u => u.id === id);
         if (index >= 0) {
